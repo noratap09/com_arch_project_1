@@ -1,4 +1,8 @@
 def two_complement(num):
+    if(num > 32767 or num < -32768):
+        print("Out of range")
+        exit(1)
+
     if(num<0):
         return bin((num-1)*-1)[2:].zfill(16).replace("0","_").replace("1","0").replace("_","1")
     else:
@@ -23,6 +27,9 @@ count=0
 for line in file:
     ass_code = line.split()
     if(not(line.split()[0] in instructions_set.keys())):
+        if(ass_code[0] in symbolic_address.keys()):
+            print("Used same Label")
+            exit(1)
         symbolic_address[line.split()[0]] = count
         ass_code.pop(0)
     ass_code_line.append(ass_code)
@@ -48,7 +55,11 @@ for line in ass_code_line:
                 if(line[3] in symbolic_address):
                     offset = symbolic_address[line[3]]-ass_code_line.index(line)+1
                 else:
-                    offset = int(line[3])
+                    try:
+                        offset = int(line[3])
+                    except:
+                        print("Undefined Label")
+                        exit(1)
                 offset = two_complement(offset)
                 mac_code = "0b"+opcode+regA+regB+offset
                 mac_code_line.append(int(mac_code,2))
@@ -57,9 +68,14 @@ for line in ass_code_line:
                 regA = bin(int(line[1]))[2:].zfill(3)
                 regB = bin(int(line[2]))[2:].zfill(3)
                 if(line[3] in symbolic_address):
-                    offset = bin(symbolic_address[line[3]])[2:].zfill(16)
+                    offset = symbolic_address[line[3]]
                 else:
-                    offset = bin(int(line[3]))[2:].zfill(16)
+                    try:
+                        offset = int(line[3])
+                    except:
+                        print("Undefined Label")
+                        exit(1)
+                offset = two_complement(offset)
                 mac_code = "0b"+opcode+regA+regB+offset
                 mac_code_line.append(int(mac_code,2))
         elif(instructions_type=="J"):
@@ -79,6 +95,9 @@ for line in ass_code_line:
             mac_code_line.append(symbolic_address[line[1]])
         else:
             mac_code_line.append(line[1])
+    else:
+        print("Out of opcode")
+        exit(1)
 
 with open('machine_code_out.txt', 'w') as f:
     for item in mac_code_line:

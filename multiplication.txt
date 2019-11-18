@@ -1,0 +1,28 @@
+lw 0 2 mcand
+lw 0 3 mplier
+add 4 0 2 
+add 1 0 0
+lw 0 5 pos
+loop beq 0 3 done
+nand 6 3 5
+nand 6 6 6
+beq 6 5 if
+add 5 5 5
+beq 0 0 loop
+if lw 0 7 pos
+loop2 beq 7 5 while
+add 1 1 4
+add 4 0 2
+nand 5 5 5
+add 5 5 pos
+add 3 3 5
+lw 0 5 pos
+beq 0 0 loop
+while add 4 4 4
+add 7 7 7
+beq 0 0 loop2
+done noop
+halt
+mcand .fill 32766
+mplier .fill 10383
+pos .fill 1

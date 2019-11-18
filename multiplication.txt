@@ -12,10 +12,11 @@ beq 0 0 loop
 if lw 0 7 pos
 loop2 beq 7 5 while
 add 1 1 4
-add 4 0 2
 nand 5 5 5
-add 5 5 pos
+lw 0 4 pos
+add 5 5 4
 add 3 3 5
+add 4 0 2
 lw 0 5 pos
 beq 0 0 loop
 while add 4 4 4

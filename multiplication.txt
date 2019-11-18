@@ -8,20 +8,16 @@ nand 6 3 5
 nand 6 6 6
 beq 6 5 if
 add 5 5 5
+add 4 4 4
 beq 0 0 loop
-if lw 0 7 pos
-loop2 beq 7 5 while
-add 1 1 4
+if add 1 1 4
 nand 5 5 5
-lw 0 4 pos
-add 5 5 4
+lw 0 7 pos
+add 5 5 7
 add 3 3 5
 add 4 0 2
 lw 0 5 pos
 beq 0 0 loop
-while add 4 4 4
-add 7 7 7
-beq 0 0 loop2
 done noop
 halt
 mcand .fill 32766

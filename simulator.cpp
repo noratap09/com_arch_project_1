@@ -61,9 +61,9 @@ int main(int argc, char *argv[])
     	regA = ( (state.mem[state.pc] >> 19) & 7 ); /*((state.mem[state.pc] & 3670016) >> 19) (111 0*19) */
     	regB = ( (state.mem[state.pc] >> 16) & 7 ); /* ((state.mem[state.pc] & 458752) >> 16) (111 0*16) */ 
     	destReg = ( (state.mem[state.pc] >> 0) & 7 ); /* (state.mem[state.pc] & 7) (111) */
-		int offSet = convertNum(state.mem[state.pc] & 65535);
+		offSet = convertNum(state.mem[state.pc] & 65535);
 		if(opcode == 0){
-			/*add*/
+			/*add*/	
 			state.reg[destReg] = state.reg[regA] + state.reg[regB];
 			state.pc++;
 		}else if(opcode == 1){
@@ -77,6 +77,7 @@ int main(int argc, char *argv[])
 		}else if(opcode == 3){
 			/*store word*/
 			state.mem[state.reg[regA] + offSet] = state.reg[regB];
+			state.pc++;
 		}else if(opcode == 4){
 			/*beq*/
 			if(state.reg[regA] == state.reg[regB]){

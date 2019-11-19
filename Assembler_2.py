@@ -1,3 +1,8 @@
+import sys
+if(len(sys.argv) != 3):
+	print("Input not match")
+	exit(1)
+
 def two_complement(num):
     if(num > 32767 or num < -32768):
         print("Out of range")
@@ -8,7 +13,7 @@ def two_complement(num):
     else:
         return bin(num)[2:].zfill(16)
 
-file_name = input("INPUT FILE NAME:")
+file_name = sys.argv[1]
 print(file_name)
 file = open(file_name,"r") 
 
@@ -26,7 +31,7 @@ instructions_set = {"add":["000","R"],
 count=0
 for line in file:
     ass_code = line.split()
-    if(not(line.split()[0] in instructions_set.keys())):
+    if(not(line.split()[0] in instructions_set.keys()) and line.split()[0] != ".fill"):
         if(ass_code[0] in symbolic_address.keys()):
             print("Used same Label", ass_code[0])
             exit(1)
@@ -97,14 +102,22 @@ for line in ass_code_line:
         if(line[1] in symbolic_address):
             mac_code_line.append(symbolic_address[line[1]])
         else:
-            mac_code_line.append(line[1])
+            try:
+                mac_code_line.append(int(line[1]))
+            except:
+                print("Undefined Label")
+                exit(1)			
     else:
         print("Out of opcode")
         exit(1)
 
-with open('machine_code_out.txt', 'w') as f:
+file_out = sys.argv[2]
+
+with open(file_out, 'w') as f:
     for item in mac_code_line:
         f.write("%s\n" % item)
+
+print("Success !!!")
 """
 for i in ass_code_line:
     print(i)

@@ -1,21 +1,21 @@
 lw 0 2 mcand
 lw 0 3 mplier
-add 4 0 2 
-add 1 0 0
+add 2 0 4
+add 0 0 1
 lw 0 5 pos
 loop beq 0 3 done
-nand 6 3 5
+nand 5 3 6
 nand 6 6 6
 beq 6 5 if
 add 5 5 5
 add 4 4 4
 beq 0 0 loop
-if add 1 1 4
+if add 4 1 1
+add 2 0 4
 nand 5 5 5
 lw 0 7 pos
-add 5 5 7
-add 3 3 5
-add 4 0 2
+add 7 5 5
+add 5 3 3
 lw 0 5 pos
 beq 0 0 loop
 done noop

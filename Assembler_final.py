@@ -47,6 +47,7 @@ for line in file:
     count=count+1
 
 mac_code_line = list()
+count = 0
 for line in ass_code_line:
     if(line[0] in instructions_set):
         instructions_type = instructions_set[line[0]][1]
@@ -64,10 +65,10 @@ for line in ass_code_line:
                 regA = bin(int(line[1]))[2:].zfill(3)
                 regB = bin(int(line[2]))[2:].zfill(3)
                 if(line[3] in symbolic_address):
-                    if(int(symbolic_address[line[3]]) > int(ass_code_line.index(line))):
-                        offset = symbolic_address[line[3]]-ass_code_line.index(line)-1
+                    if(int(symbolic_address[line[3]]) > count):
+                        offset = symbolic_address[line[3]]-count-1
                     else:
-                        offset = symbolic_address[line[3]]-ass_code_line.index(line)+1
+                        offset = symbolic_address[line[3]]-count+1
                 else:
                     try:
                         offset = int(line[3])
@@ -116,6 +117,7 @@ for line in ass_code_line:
     else:
         print("Out of opcode")
         exit(1)
+    count = count+1
 
 file_out = sys.argv[2]
 

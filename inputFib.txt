@@ -1,0 +1,42 @@
+lw 0 2 input
+lw 0 6 endAdr
+lw 0 7 neg1
+fib lw 0 4 one
+add 7 4 7
+sw 7 6 stack
+add 7 4 7
+sw 7 2 stack
+add 7 4 7
+lw 0 5 fibAdr
+beq 2 0 L1
+lw 0 4 one
+beq 2 4 L1
+lw 0 4 neg1
+add 4 4 4
+add 2 4 2
+jalr 5 6
+sw 7 1 stack
+lw 0 4 neg1
+add 7 4 7
+lw 7 2 stack
+add 2 4 2
+lw 0 4 one
+add 7 4 7
+jalr 5 6
+lw 7 3 stack
+add 2 3 2
+beq 0 0 L1
+L1 lw 0 4 neg1
+add 7 4 7
+add 7 4 7
+lw 7 6 stack
+add 7 4 7
+add 2 0 1
+jalr 6 4
+done halt
+endAdr .fill done
+fibAdr .fill fib
+input .fill 3
+one .fill 1
+neg1 .fill -1
+stack .fill 0

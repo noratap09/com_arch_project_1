@@ -64,16 +64,31 @@ int main(int argc, char *argv[])
 		offSet = convertNum(state.mem[state.pc] & 65535);
 		if(opcode == 0){
 			/*add*/	
-			state.reg[destReg] = state.reg[regA] + state.reg[regB];
-			state.pc++;
+            if(destReg==0){
+                exit(1);
+            }
+            else{
+                state.reg[destReg] = state.reg[regA] + state.reg[regB];
+			    state.pc++;
+            }
 		}else if(opcode == 1){
 			/*nand*/
-			state.reg[destReg] = ~(state.reg[regA] & state.reg[regB]);
-			state.pc++;
+            if(destReg==0){
+                exit(1);
+            }
+            else{
+                state.reg[destReg] = ~(state.reg[regA] & state.reg[regB]);
+			    state.pc++;
+            }
 		}else if(opcode == 2){
 			/*load word*/
-			state.reg[regB] = state.mem[state.reg[regA] + offSet];
-			state.pc++;
+            if(regB==0){
+                exit(1);
+            }
+            else{
+                state.reg[regB] = state.mem[state.reg[regA] + offSet];
+			    state.pc++;
+            }
 		}else if(opcode == 3){
 			/*store word*/
 			state.mem[state.reg[regA] + offSet] = state.reg[regB];
@@ -87,13 +102,18 @@ int main(int argc, char *argv[])
 			}
 		}else if(opcode == 5){
 			/*jalr*/
-			if(state.reg[regA] == state.reg[regB]){
-				state.reg[regB] = state.pc + 1;
-				state.pc = state.pc + 1;
-			}else{
-				state.reg[regB] = state.pc + 1;
-				state.pc = state.reg[regA];
-			}
+            if(regB==0){
+                exit(1);
+            }
+            else{
+                if(state.reg[regA] == state.reg[regB]){
+				    state.reg[regB] = state.pc + 1;
+				    state.pc = state.pc + 1;
+			    }else{
+				    state.reg[regB] = state.pc + 1;
+				    state.pc = state.reg[regA];
+			    }
+            }
 		}else if(opcode == 6){
 			printf("\n\nCPU HALTED\n\n\n");
 			halt_flag = true;

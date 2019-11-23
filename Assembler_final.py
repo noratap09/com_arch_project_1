@@ -48,76 +48,80 @@ for line in file:
 
 mac_code_line = list()
 count = 0
-for line in ass_code_line:
-    if(line[0] in instructions_set):
-        instructions_type = instructions_set[line[0]][1]
-        if(instructions_type=="R"):
-            opcode = instructions_set[line[0]][0]
-            regA = bin(int(line[1]))[2:].zfill(3)
-            regB = bin(int(line[2]))[2:].zfill(3)
-            _ = "".zfill(13)
-            desReg = bin(int(line[3]))[2:].zfill(3)
-            mac_code = "0b"+opcode+regA+regB+_+desReg
-            mac_code_line.append(int(mac_code,2))
-        elif(instructions_type=="I"):
-            if(line[0] == "beq"):
-                opcode = instructions_set[line[0]][0]
-                regA = bin(int(line[1]))[2:].zfill(3)
-                regB = bin(int(line[2]))[2:].zfill(3)
-                if(line[3] in symbolic_address):
-                    if(int(symbolic_address[line[3]]) > count):
-                        offset = symbolic_address[line[3]]-count-1
-                    else:
-                        offset = symbolic_address[line[3]]-count+1
-                else:
-                    try:
-                        offset = int(line[3])
-                    except:
-                        print("Undefined Label")
-                        exit(1)
-                offset = two_complement(offset)
-                mac_code = "0b"+opcode+regA+regB+offset
-                mac_code_line.append(int(mac_code,2))
-            else:
-                opcode = instructions_set[line[0]][0]
-                regA = bin(int(line[1]))[2:].zfill(3)
-                regB = bin(int(line[2]))[2:].zfill(3)
-                if(line[3] in symbolic_address):
-                    offset = symbolic_address[line[3]]
-                else:
-                    try:
-                        offset = int(line[3])
-                    except:
-                        print("Undefined Label")
-                        exit(1)
-                offset = two_complement(offset)
-                mac_code = "0b"+opcode+regA+regB+offset
-                mac_code_line.append(int(mac_code,2))
-        elif(instructions_type=="J"):
-            opcode = instructions_set[line[0]][0]
-            regA = bin(int(line[1]))[2:].zfill(3)
-            regB = bin(int(line[2]))[2:].zfill(3)
-            _ = "".zfill(16)
-            mac_code = "0b"+opcode+regA+regB+_
-            mac_code_line.append(int(mac_code,2))
-        elif(instructions_type=="O"):
-            opcode = instructions_set[line[0]][0]
-            _ = "".zfill(22)
-            mac_code = "0b"+opcode+_
-            mac_code_line.append(int(mac_code,2))
-    elif(line[0]==".fill"):
-        if(line[1] in symbolic_address):
-            mac_code_line.append(symbolic_address[line[1]])
-        else:
-            try:
-                mac_code_line.append(int(line[1]))
-            except:
-                print("Undefined Label")
-                exit(1)			
-    else:
-        print("Out of opcode")
-        exit(1)
-    count = count+1
+try:
+	for line in ass_code_line:
+		if(line[0] in instructions_set):
+			instructions_type = instructions_set[line[0]][1]
+			if(instructions_type=="R"):
+				opcode = instructions_set[line[0]][0]
+				regA = bin(int(line[1]))[2:].zfill(3)
+				regB = bin(int(line[2]))[2:].zfill(3)
+				_ = "".zfill(13)
+				desReg = bin(int(line[3]))[2:].zfill(3)
+				mac_code = "0b"+opcode+regA+regB+_+desReg
+				mac_code_line.append(int(mac_code,2))
+			elif(instructions_type=="I"):
+				if(line[0] == "beq"):
+					opcode = instructions_set[line[0]][0]
+					regA = bin(int(line[1]))[2:].zfill(3)
+					regB = bin(int(line[2]))[2:].zfill(3)
+					if(line[3] in symbolic_address):
+						if(int(symbolic_address[line[3]]) > count):
+							offset = symbolic_address[line[3]]-count-1
+						else:
+							offset = symbolic_address[line[3]]-count+1
+					else:
+						try:
+							offset = int(line[3])
+						except:
+							print("Undefined Label")
+							exit(1)
+					offset = two_complement(offset)
+					mac_code = "0b"+opcode+regA+regB+offset
+					mac_code_line.append(int(mac_code,2))
+				else:
+					opcode = instructions_set[line[0]][0]
+					regA = bin(int(line[1]))[2:].zfill(3)
+					regB = bin(int(line[2]))[2:].zfill(3)
+					if(line[3] in symbolic_address):
+						offset = symbolic_address[line[3]]
+					else:
+						try:
+							offset = int(line[3])
+						except:
+							print("Undefined Label")
+							exit(1)
+					offset = two_complement(offset)
+					mac_code = "0b"+opcode+regA+regB+offset
+					mac_code_line.append(int(mac_code,2))
+			elif(instructions_type=="J"):
+				opcode = instructions_set[line[0]][0]
+				regA = bin(int(line[1]))[2:].zfill(3)
+				regB = bin(int(line[2]))[2:].zfill(3)
+				_ = "".zfill(16)
+				mac_code = "0b"+opcode+regA+regB+_
+				mac_code_line.append(int(mac_code,2))
+			elif(instructions_type=="O"):
+				opcode = instructions_set[line[0]][0]
+				_ = "".zfill(22)
+				mac_code = "0b"+opcode+_
+				mac_code_line.append(int(mac_code,2))
+		elif(line[0]==".fill"):
+			if(line[1] in symbolic_address):
+				mac_code_line.append(symbolic_address[line[1]])
+			else:
+				try:
+					mac_code_line.append(int(line[1]))
+				except:
+					print("Undefined Label")
+					exit(1)			
+		else:
+			print("Out of opcode")
+			exit(1)
+		count = count+1
+except:
+	print("Assembly Syntax Error")
+	exit(1)
 
 file_out = sys.argv[2]
 

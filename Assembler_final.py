@@ -54,11 +54,11 @@ try:
 			instructions_type = instructions_set[line[0]][1]
 			if(instructions_type=="R"):
 				opcode = instructions_set[line[0]][0]
-				if(int(line[1]) >= 0 and int(line[1]) <= 7 and int(line[2]) >= 0 and int(line[2]) <= 7):
+				if(int(line[1]) >= 0 and int(line[1]) <= 7 and int(line[2]) >= 0 and int(line[2]) <= 7 and int(line[3]) >= 0 and int(line[3]) <= 7):
 					regA = bin(int(line[1]))[2:].zfill(3)
 					regB = bin(int(line[2]))[2:].zfill(3)
+					desReg = bin(int(line[3]))[2:].zfill(3)
 				_ = "".zfill(13)
-				desReg = bin(int(line[3]))[2:].zfill(3)
 				mac_code = "0b"+opcode+regA+regB+_+desReg
 				mac_code_line.append(int(mac_code,2))
 			elif(instructions_type=="I"):

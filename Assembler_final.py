@@ -54,8 +54,9 @@ try:
 			instructions_type = instructions_set[line[0]][1]
 			if(instructions_type=="R"):
 				opcode = instructions_set[line[0]][0]
-				regA = bin(int(line[1]))[2:].zfill(3)
-				regB = bin(int(line[2]))[2:].zfill(3)
+				if(int(line[1]) >= 0 and int(line[1]) <= 7 and int(line[2]) >= 0 and int(line[2]) <= 7):
+					regA = bin(int(line[1]))[2:].zfill(3)
+					regB = bin(int(line[2]))[2:].zfill(3)
 				_ = "".zfill(13)
 				desReg = bin(int(line[3]))[2:].zfill(3)
 				mac_code = "0b"+opcode+regA+regB+_+desReg
@@ -63,8 +64,9 @@ try:
 			elif(instructions_type=="I"):
 				if(line[0] == "beq"):
 					opcode = instructions_set[line[0]][0]
-					regA = bin(int(line[1]))[2:].zfill(3)
-					regB = bin(int(line[2]))[2:].zfill(3)
+					if(int(line[1]) >= 0 and int(line[1]) <= 7 and int(line[2]) >= 0 and int(line[2]) <= 7):
+						regA = bin(int(line[1]))[2:].zfill(3)
+						regB = bin(int(line[2]))[2:].zfill(3)
 					if(line[3] in symbolic_address):
 						if(int(symbolic_address[line[3]]) > count):
 							offset = symbolic_address[line[3]]-count-1
@@ -81,8 +83,9 @@ try:
 					mac_code_line.append(int(mac_code,2))
 				else:
 					opcode = instructions_set[line[0]][0]
-					regA = bin(int(line[1]))[2:].zfill(3)
-					regB = bin(int(line[2]))[2:].zfill(3)
+					if(int(line[1]) >= 0 and int(line[1]) <= 7 and int(line[2]) >= 0 and int(line[2]) <= 7):
+						regA = bin(int(line[1]))[2:].zfill(3)
+						regB = bin(int(line[2]))[2:].zfill(3)
 					if(line[3] in symbolic_address):
 						offset = symbolic_address[line[3]]
 					else:
@@ -96,8 +99,9 @@ try:
 					mac_code_line.append(int(mac_code,2))
 			elif(instructions_type=="J"):
 				opcode = instructions_set[line[0]][0]
-				regA = bin(int(line[1]))[2:].zfill(3)
-				regB = bin(int(line[2]))[2:].zfill(3)
+				if(int(line[1]) >= 0 and int(line[1]) <= 7 and int(line[2]) >= 0 and int(line[2]) <= 7):
+					regA = bin(int(line[1]))[2:].zfill(3)
+					regB = bin(int(line[2]))[2:].zfill(3)
 				_ = "".zfill(16)
 				mac_code = "0b"+opcode+regA+regB+_
 				mac_code_line.append(int(mac_code,2))
